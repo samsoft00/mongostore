@@ -7,10 +7,10 @@ package mongostore
 import (
 	"context"
 	"errors"
+	"go.mongodb.org/mongo-driver/bson"
 	"net/http"
 	"time"
 
-	"github.com/globalsign/mgo/bson"
 	"github.com/gorilla/securecookie"
 	"github.com/gorilla/sessions"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -112,7 +112,7 @@ func (m *MongoStore) Save(r *http.Request, w http.ResponseWriter, session *sessi
 	}
 
 	if session.ID == "" {
-		session.ID = bson.NewObjectId().Hex()
+		session.ID = primitive.NewObjectID().Hex()
 	}
 
 	if err := m.upsert(session); err != nil {
